@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>सरकारी व प्राइवेट जॉब अलर्ट</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+    body { background-color: #f3f4f6; color: #1f2937; padding: 16px; }
+    header { max-width: 800px; margin: 0 auto 20px; text-align: center; }
+    h1 { color: #1e40af; font-size: 22px; margin-bottom: 8px; }
+    .search-box { width: 100%; max-width: 450px; padding: 10px 14px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px; margin: 12px auto; display: block; }
+    .container { max-width: 800px; margin: 0 auto; display: grid; gap: 14px; }
+    .job-card { background: #ffffff; padding: 16px; border-radius: 8px; border-left: 5px solid #2563eb; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .job-title { font-size: 16px; font-weight: bold; color: #111827; margin-bottom: 6px; }
+    .job-dept { color: #4b5563; font-size: 13px; margin-bottom: 10px; }
+    .job-meta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .last-date { font-size: 12px; color: #dc2626; font-weight: 600; }
+    .apply-btn { background: #2563eb; color: #fff; padding: 6px 12px; border-radius: 5px; text-decoration: none; font-size: 13px; font-weight: 500; }
+    .loading { text-align: center; font-size: 16px; color: #6b7280; padding: 30px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>लेटेस्ट जॉब पोर्टल</h1>
+    <p>नई भर्तियाँ व ऑनलाइन फॉर्म</p>
+    <input type="text" id="searchInput" class="search-box" placeholder="नौकरी खोजें..." onkeyup="filterJobs()">
+  </header>
+
+  <div class="container" id="jobsList">
+    <div class="loading">ताज़ा नौकरियाँ लोड हो रही हैं...</div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = "YOUR_SUPABASE_URL";
+    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+    
+    const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let allJobs = [];
+
+    async function loadJobs() {
+      const container = document.getElementById('jobsList');
+      const { data, error } = await client
+        .from('jobs')
+        .select('*')
+        .eq('status', 'Active')
+        .order('id', { ascending: false });
+
+      if (error || !data) {
+        container.innerHTML = '<p style="text-align:center; color:gray;">डेटाबेस कनेक्ट होने के बाद नौकरियाँ यहाँ दिखेंगी।</p>';
+        return;
+      }
+
+      allJobs = data;
+      renderJobs(allJobs);
+    }
+
+    function renderJobs(jobs) {
+      const container = document.getElementById('jobsList');
+      if (jobs.length === 0) {
+        container.innerHTML = '<p style="text-align:center; padding: 20px;">अभी कोई नई नौकरी उपलब्ध नहीं है।</p>';
+        return;
+      }
+
+      container.innerHTML = jobs.map(job => `
+        <div class="job-card">
+          <div class="job-title">${job.title}</div>
+          <div class="job-dept">विभाग: ${job.company_dept}</div>
+          <div class="job-meta">
+            <span class="last-date">अंतिम तिथि: ${job.last_date}</span>
+            <a href="${job.apply_link}" target="_blank" rel="noopener" class="apply-btn">अप्लाई करें</a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterJobs() {
+      const term = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = allJobs.filter(job => 
+        job.title.toLowerCase().includes(term) || 
+        job.company_dept.toLowerCase().includes(term)
+      );
+      renderJobs(filtered);
+    }
+
+    loadJobs();
+  </script>
+</body>
+</html>
