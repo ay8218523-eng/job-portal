@@ -3,86 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>सरकारी व प्राइवेट जॉब अलर्ट</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>सरकारी व प्राइवेट जॉब पोर्टल</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
-    body { background-color: #f3f4f6; color: #1f2937; padding: 16px; }
-    header { max-width: 800px; margin: 0 auto 20px; text-align: center; }
-    h1 { color: #1e40af; font-size: 22px; margin-bottom: 8px; }
-    .search-box { width: 100%; max-width: 450px; padding: 10px 14px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px; margin: 12px auto; display: block; }
-    .container { max-width: 800px; margin: 0 auto; display: grid; gap: 14px; }
-    .job-card { background: #ffffff; padding: 16px; border-radius: 8px; border-left: 5px solid #2563eb; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-    .job-title { font-size: 16px; font-weight: bold; color: #111827; margin-bottom: 6px; }
-    .job-dept { color: #4b5563; font-size: 13px; margin-bottom: 10px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: #f1f5f9; color: #0f172a; padding: 12px; }
+    header { max-width: 850px; margin: 0 auto 16px; text-align: center; }
+    h1 { color: #1e3a8a; font-size: 24px; margin-bottom: 6px; }
+    .search-box { width: 100%; max-width: 450px; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; margin-top: 8px; }
+    .container { max-width: 850px; margin: 0 auto; display: grid; gap: 14px; }
+    
+    .section-title { font-size: 18px; font-weight: bold; margin: 20px 0 10px; display: flex; align-items: center; gap: 8px; }
+    .active-title { color: #15803d; }
+    .expired-title { color: #b91c1c; }
+
+    .job-card { background: #ffffff; padding: 14px 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .job-card.active { border-left: 5px solid #2563eb; }
+    .job-card.expired { border-left: 5px solid #94a3b8; background-color: #f8fafc; opacity: 0.85; }
+
+    .job-title { font-size: 15px; font-weight: bold; color: #1e293b; margin-bottom: 6px; }
+    .job-dept { color: #64748b; font-size: 13px; margin-bottom: 8px; }
     .job-meta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
-    .last-date { font-size: 12px; color: #dc2626; font-weight: 600; }
-    .apply-btn { background: #2563eb; color: #fff; padding: 6px 12px; border-radius: 5px; text-decoration: none; font-size: 13px; font-weight: 500; }
-    .loading { text-align: center; font-size: 16px; color: #6b7280; padding: 30px; }
+    
+    .last-date { font-size: 12px; font-weight: 600; color: #0284c7; }
+    .expired-badge { font-size: 12px; font-weight: bold; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 4px; }
+
+    .apply-btn { background: #2563eb; color: #fff; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: bold; }
+    .closed-btn { background: #cbd5e1; color: #475569; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; pointer-events: none; }
+    .loading { text-align: center; color: #64748b; padding: 30px; }
   </style>
 </head>
 <body>
 
   <header>
     <h1>लेटेस्ट जॉब पोर्टल</h1>
-    <p>नई भर्तियाँ व ऑनलाइन फॉर्म</p>
+    <p style="color: #64748b; font-size: 14px;">सरकारी व प्राइवेट नौकरियाँ</p>
     <input type="text" id="searchInput" class="search-box" placeholder="नौकरी खोजें..." onkeyup="filterJobs()">
   </header>
 
-  <div class="container" id="jobsList">
-    <div class="loading">ताज़ा नौकरियाँ लोड हो रही हैं...</div>
+  <div class="container">
+    <!-- एक्टिव नौकरियों का डब्बा -->
+    <div class="section-title active-title">🟢 ताज़ा ऑनलाइन फॉर्म (Active)</div>
+    <div id="activeJobsList"><div class="loading">लोड हो रहा है...</div></div>
+
+    <!-- समाप्त नौकरियों का डब्बा -->
+    <div class="section-title expired-title">🔴 समाप्त हो चुकी भर्तियाँ (Expired Archive)</div>
+    <div id="expiredJobsList"><div class="loading">लोड हो रहा है...</div></div>
   </div>
 
   <script>
     const SUPABASE_URL = "https://amyhcstvepkrxualrfak.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_LkEw1-6mpxCzlS0doodPfA_0UsTSszn";
-    
-    const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const SUPABASE_KEY = "sb_publishable_LkEw1-6mpxCzlS0doodPfA_0UsTSszn";
+
     let allJobs = [];
 
     async function loadJobs() {
-      const container = document.getElementById('jobsList');
-      const { data, error } = await client
-        .from('jobs')
-        .select('*')
-        .eq('status', 'Active')
-        .order('id', { ascending: false });
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/jobs?select=*&order=id.desc`, {
+          headers: {
+            "apikey": SUPABASE_KEY,
+            "Authorization": `Bearer ${SUPABASE_KEY}`
+          }
+        });
 
-      if (error || !data) {
-        container.innerHTML = '<p style="text-align:center; color:gray;">डेटाबेस कनेक्ट होने के बाद नौकरियाँ यहाँ दिखेंगी।</p>';
-        return;
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        allJobs = await response.json();
+        renderSections(allJobs);
+      } catch (err) {
+        document.getElementById("activeJobsList").innerHTML = '<p style="color:gray;text-align:center;">डेटा लोड करने में त्रुटि।</p>';
+        document.getElementById("expiredJobsList").innerHTML = '';
       }
-
-      allJobs = data;
-      renderJobs(allJobs);
     }
 
-    function renderJobs(jobs) {
-      const container = document.getElementById('jobsList');
-      if (jobs.length === 0) {
-        container.innerHTML = '<p style="text-align:center; padding: 20px;">अभी कोई नई नौकरी उपलब्ध नहीं है।</p>';
-        return;
-      }
+    function renderSections(jobs) {
+      const activeContainer = document.getElementById("activeJobsList");
+      const expiredContainer = document.getElementById("expiredJobsList");
 
-      container.innerHTML = jobs.map(job => `
-        <div class="job-card">
-          <div class="job-title">${job.title}</div>
-          <div class="job-dept">विभाग: ${job.company_dept}</div>
+      const activeJobs = jobs.filter(j => j.status === 'Active');
+      const expiredJobs = jobs.filter(j => j.status === 'Expired');
+
+      activeContainer.innerHTML = activeJobs.length ? activeJobs.map(j => `
+        <div class="job-card active" style="margin-bottom:10px;">
+          <div class="job-title">${j.title}</div>
+          <div class="job-dept">विभाग: ${j.company_dept || 'सरकारी / प्राइवेट विभाग'}</div>
           <div class="job-meta">
-            <span class="last-date">अंतिम तिथि: ${job.last_date}</span>
-            <a href="${job.apply_link}" target="_blank" rel="noopener" class="apply-btn">अप्लाई करें</a>
+            <span class="last-date">अंतिम तिथि: ${j.last_date ? j.last_date.split('T')[0] : 'उपलब्ध नहीं'}</span>
+            <a href="${j.apply_link}" target="_blank" rel="noopener" class="apply-btn">अप्लाई करें</a>
           </div>
         </div>
-      `).join('');
+      `).join('') : '<p style="color:gray;padding:10px;">फिलहाल कोई चालू फॉर्म नहीं है।</p>';
+
+      expiredContainer.innerHTML = expiredJobs.length ? expiredJobs.map(j => `
+        <div class="job-card expired" style="margin-bottom:10px;">
+          <div class="job-title">${j.title}</div>
+          <div class="job-dept">विभाग: ${j.company_dept || 'सरकारी / प्राइवेट विभाग'}</div>
+          <div class="job-meta">
+            <span class="expired-badge">समाप्त: ${j.last_date ? j.last_date.split('T')[0] : ''}</span>
+            <span class="closed-btn">आवेदन बंद</span>
+          </div>
+        </div>
+      `).join('') : '<p style="color:gray;padding:10px;">कोई समाप्त भर्ती नहीं है।</p>';
     }
 
     function filterJobs() {
-      const term = document.getElementById('searchInput').value.toLowerCase();
-      const filtered = allJobs.filter(job => 
-        job.title.toLowerCase().includes(term) || 
-        job.company_dept.toLowerCase().includes(term)
+      const term = document.getElementById("searchInput").value.toLowerCase();
+      const filtered = allJobs.filter(j => 
+        (j.title && j.title.toLowerCase().includes(term)) ||
+        (j.company_dept && j.company_dept.toLowerCase().includes(term))
       );
-      renderJobs(filtered);
+      renderSections(filtered);
     }
 
     loadJobs();
