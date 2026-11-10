@@ -12,7 +12,25 @@ if not SUPABASE_URL or not SUPABASE_KEY:
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
+def manage_lifecycle():
+    """तारीख खत्म होने पर Expired करना और 15 दिन बाद पूरी तरह डिलीट कर देना"""
+    today = datetime.date.today()
+    today_str = today.isoformat()
+    fifteen_days_ago = (today - datetime.timedelta(days=15)).isoformat()
+
+    try:
+        # 1. जो डेट खत्म हो गई है, उसे Expired स्टेटस में बदलना
+        supabase.table("jobs").update({"status": "Expired"}).lt("last_date", today_str).eq("status", "Active").execute()
+        print("Status updated to Expired for ended dates.")
+
+        # 2. जो नौकरी खत्म हुए 15 दिन से ज़्यादा हो गए, उसे हमेशा के लिए डिलीट करना
+        supabase.table("jobs").delete().lt("last_date", fifteen_days_ago).execute()
+        print("Jobs older than 15 days deleted completely.")
+    except Exception as e:
+        print(f"Lifecycle note: {e}")
+
 def fetch_jobs():
+    """इंटरनेट से नई नौकरियाँ लाना"""
     feeds = [
         "https://news.google.com/rss/search?q=sarkari+naukri+recruitment&hl=hi&gl=IN&ceid=IN:hi",
         "https://news.google.com/rss/search?q=latest+govt+jobs+india&hl=en-IN&gl=IN&ceid=IN:en"
@@ -22,7 +40,6 @@ def fetch_jobs():
     default_expiry = (today + datetime.timedelta(days=30)).isoformat()
     jobs_added = 0
 
-    # 1. RSS Feeds se Jobs Lana
     for url in feeds:
         try:
             parsed = feedparser.parse(url)
@@ -51,38 +68,7 @@ def fetch_jobs():
         except Exception as feed_err:
             print(f"Feed error ({url}): {feed_err}")
 
-    # 2. Agar feed se kuch na mile toh Demo Jobs dalna taaki site khali na rahe
-    if jobs_added == 0:
-        demo_jobs = [
-            {
-                "title": "SSC CGL Recruitment 2026 - Apply Online",
-                "company_dept": "Staff Selection Commission",
-                "apply_link": "https://ssc.gov.in",
-                "last_date": default_expiry,
-                "status": "Active"
-            },
-            {
-                "title": "Railway RRB NTPC Bharti 2026",
-                "company_dept": "Railway Recruitment Board",
-                "apply_link": "https://indianrailways.gov.in",
-                "last_date": default_expiry,
-                "status": "Active"
-            },
-            {
-                "title": "UP Police Constable Vacancy 2026",
-                "company_dept": "UPPRPB",
-                "apply_link": "https://uppbpb.gov.in",
-                "last_date": default_expiry,
-                "status": "Active"
-            }
-        ]
-        for job in demo_jobs:
-            try:
-                supabase.table("jobs").insert(job).execute()
-                print(f"Demo Job added: {job['title']}")
-            except Exception as e:
-                print(f"Demo insert error: {e}")
-
 if __name__ == "__main__":
+    manage_lifecycle()
     fetch_jobs()
     
