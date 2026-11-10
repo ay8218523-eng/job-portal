@@ -3,59 +3,305 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>सरकारी व प्राइवेट जॉब पोर्टल</title>
+  <title>Sarkari & Private Result Portal</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
-    body { background-color: #f1f5f9; color: #0f172a; padding: 12px; }
-    header { max-width: 850px; margin: 0 auto 16px; text-align: center; }
-    h1 { color: #1e3a8a; font-size: 24px; margin-bottom: 6px; }
-    .search-box { width: 100%; max-width: 450px; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; margin-top: 8px; }
-    .container { max-width: 850px; margin: 0 auto; display: grid; gap: 14px; }
-    .section-title { font-size: 18px; font-weight: bold; margin: 20px 0 10px; }
-    .active-title { color: #15803d; }
-    .expired-title { color: #b91c1c; }
-    .job-card { background: #ffffff; padding: 14px 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 10px; }
-    .job-card.active { border-left: 5px solid #2563eb; }
-    .job-card.expired { border-left: 5px solid #94a3b8; background-color: #f8fafc; }
-    .job-title { font-size: 15px; font-weight: bold; color: #1e293b; margin-bottom: 6px; }
-    .job-dept { color: #64748b; font-size: 13px; margin-bottom: 8px; }
-    .job-meta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
-    .last-date { font-size: 12px; font-weight: 600; color: #0284c7; }
-    .expired-badge { font-size: 12px; font-weight: bold; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 4px; }
-    .apply-btn { background: #2563eb; color: #fff; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: bold; }
-    .closed-btn { background: #cbd5e1; color: #475569; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; }
-    .error-box { background: #fee2e2; color: #991b1b; padding: 14px; border-radius: 8px; border: 1px solid #f87171; font-size: 14px; line-height: 1.5; margin-top: 10px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
+    body { background-color: #ffffff; color: #000000; }
+
+    /* Top Red Header */
+    .site-header {
+      background-color: #b30000;
+      color: #ffffff;
+      text-align: center;
+      padding: 16px 8px;
+    }
+    .site-header h1 { font-size: 26px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .site-header p { font-size: 13px; opacity: 0.95; }
+
+    /* Search Bar */
+    .search-container { text-align: center; padding: 10px; background-color: #f1f1f1; border-bottom: 1px solid #ddd; }
+    .search-input { width: 95%; max-width: 500px; padding: 9px 12px; font-size: 14px; border: 1px solid #b30000; border-radius: 4px; outline: none; }
+
+    /* Quick Highlight Badges */
+    .quick-tools {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      max-width: 1200px;
+      margin: 10px auto;
+      padding: 0 6px;
+    }
+    .tool-btn {
+      padding: 8px 4px;
+      font-size: 11.5px;
+      font-weight: bold;
+      color: #fff;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 4px;
+      line-height: 1.2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .bg-red { background-color: #cc0000; }
+    .bg-orange { background-color: #ff5722; }
+    .bg-purple { background-color: #9c27b0; }
+    .bg-green { background-color: #2e7d32; }
+    .bg-blue { background-color: #0288d1; }
+    .bg-darkblue { background-color: #1a237e; }
+
+    /* Main 2-Column Grid (Exactly Like Mobile Screenshot) */
+    .portal-main-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      max-width: 1200px;
+      margin: 10px auto;
+      padding: 0 6px;
+    }
+
+    /* Column Table Boxes */
+    .box-table {
+      border: 1px solid #b30000;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .box-header {
+      background-color: #a80000;
+      color: #ffffff;
+      text-align: center;
+      padding: 8px 4px;
+      font-size: 15px;
+      font-weight: bold;
+    }
+    .box-list {
+      list-style-type: none;
+      padding: 4px 6px 10px;
+      margin: 0;
+      flex-grow: 1;
+    }
+    .box-list li {
+      font-size: 12.5px;
+      line-height: 1.35;
+      padding: 6px 2px;
+      border-bottom: 1px dashed #e0e0e0;
+    }
+    .box-list li a {
+      color: #0000cc;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .box-list li a:hover {
+      text-decoration: underline;
+      color: #b30000;
+    }
+
+    /* Bullet Dot */
+    .bullet { color: #000; font-weight: bold; margin-right: 3px; }
+
+    /* Blue View More Button */
+    .view-more-container { text-align: center; padding: 8px 4px 12px; }
+    .btn-view-more {
+      background-color: #1e88e5;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: bold;
+      padding: 6px 20px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+    .btn-view-more:hover { background-color: #1565c0; }
+
+    @media (min-width: 900px) {
+      .portal-main-grid { grid-template-columns: repeat(4, 1fr); }
+      .quick-tools { grid-template-columns: repeat(6, 1fr); }
+    }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>लेटेस्ट जॉब पोर्टल</h1>
-    <p style="color: #64748b; font-size: 14px;">सरकारी व प्राइवेट नौकरियाँ</p>
-    <input type="text" id="searchInput" class="search-box" placeholder="नौकरी खोजें..." onkeyup="filterJobs()">
-  </header>
-
-  <div class="container">
-    <div id="statusMessage"></div>
-
-    <div class="section-title active-title">🟢 ताज़ा ऑनलाइन फॉर्म (Active)</div>
-    <div id="activeJobsList"><div style="text-align:center;padding:20px;color:gray;">डेटा लोड हो रहा है...</div></div>
-
-    <div class="section-title expired-title">🔴 समाप्त हो चुकी भर्तियाँ (Expired Archive)</div>
-    <div id="expiredJobsList"><div style="text-align:center;padding:20px;color:gray;">डेटा लोड हो रहा है...</div></div>
+  <!-- Top Banner -->
+  <div class="site-header">
+    <h1>SARKARI & PVT RESULT</h1>
+    <p>SarkariPvtJobs.in — All Latest Government & Private Jobs, Freshers Hiring</p>
   </div>
 
+  <!-- Search -->
+  <div class="search-container">
+    <input type="text" id="searchInput" class="search-input" placeholder="नौकरी खोजें (Search Any Job / Result)..." onkeyup="filterJobs()">
+  </div>
+
+  <!-- Color Buttons (Tools) -->
+  <div class="quick-tools">
+    <a href="#fresher" class="tool-btn bg-red">Freshers Walk-in<br>(0-Exp Jobs)</a>
+    <a href="#private" class="tool-btn bg-orange">Top Private<br>Hiring 2026</a>
+    <a href="#sarkari" class="tool-btn bg-purple">SSC / Railway<br>Recruitment</a>
+    <a href="#tenth" class="tool-btn bg-green">10th / 12th / ITI<br>Jobs 2026</a>
+    <a href="#yojana" class="tool-btn bg-blue">सरकारी योजना<br>& Certificates</a>
+    <a href="#admit" class="tool-btn bg-darkblue">Admit Card &<br>Call Letter</a>
+  </div>
+
+  <!-- Main Dual-Column Boxes Section -->
+  <div class="portal-main-grid">
+
+    <!-- 1. Latest Private Jobs (Requested) -->
+    <div class="box-table" id="private">
+      <div class="box-header">Latest Private Jobs</div>
+      <ul class="box-list" id="private-jobs-list">
+        <li><span class="bullet">•</span> <a href="#">TCS NQT National Qualifier Test 2026</a></li>
+        <li><span class="bullet">•</span> <a href="#">HDFC Bank Operations & Back Office Executive</a></li>
+        <li><span class="bullet">•</span> <a href="#">Wipro Work From Home Customer Support Drive</a></li>
+        <li><span class="bullet">•</span> <a href="#">Infosys BPM Process Executive Hiring</a></li>
+        <li><span class="bullet">•</span> <a href="#">Reliance Jio Delivery & Operations Lead</a></li>
+      </ul>
+      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+    </div>
+
+    <!-- 2. Fresher Jobs (Requested Dedicated Box) -->
+    <div class="box-table" id="fresher">
+      <div class="box-header">Freshers Jobs (Any Degree/12th)</div>
+      <ul class="box-list" id="fresher-jobs-list">
+        <li><span class="bullet">•</span> <a href="#">Amazon Virtual Customer Service (Freshers WFH)</a></li>
+        <li><span class="bullet">•</span> <a href="#">Axis Bank Young Bankers Program Trainee</a></li>
+        <li><span class="bullet">•</span> <a href="#">Genpact Junior Finance & HR Associate</a></li>
+        <li><span class="bullet">•</span> <a href="#">Zomato / Swiggy Office Trainee Recruitment</a></li>
+        <li><span class="bullet">•</span> <a href="#">Tech Mahindra Voice & Non-Voice Process</a></li>
+      </ul>
+      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+    </div>
+
+    <!-- 3. Results -->
+    <div class="box-table">
+      <div class="box-header">Results</div>
+      <ul class="box-list" id="results-list">
+        <li><span class="bullet">•</span> <a href="#">UPSSSC PET Answer Key Objection 2026</a></li>
+        <li><span class="bullet">•</span> <a href="#">UPSSSC BCG Technician Result 2026 – Out</a></li>
+        <li><span class="bullet">•</span> <a href="#">BPSC 71th Mains Result 2026 – Out</a></li>
+        <li><span class="bullet">•</span> <a href="#">BPSC AES Result 2026 – Out</a></li>
+        <li><span class="bullet">•</span> <a href="#">UP Police Constable Result 2026</a></li>
+      </ul>
+      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+    </div>
+
+    <!-- 4. Latest Sarkari Jobs -->
+    <div class="box-table" id="sarkari">
+      <div class="box-header">Latest Sarkari Jobs</div>
+      <ul class="box-list" id="sarkari-jobs-list">
+        <li><span class="bullet">•</span> <a href="#">Armed Forces AFMS SSC Medical Officer Form</a></li>
+        <li><span class="bullet">•</span> <a href="#">Supreme Court SPA Online Form 2026</a></li>
+        <li><span class="bullet">•</span> <a href="#">RRB NTPC 10+2 UG Online Form (1688 Posts)</a></li>
+        <li><span class="bullet">•</span> <a href="#">UPSSSC Junior Engineer JE (1156 Posts)</a></li>
+        <li><span class="bullet">•</span> <a href="#">AFCAT 01/2027 Batch Online Form</a></li>
+      </ul>
+      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+    </div>
+
+    <!-- 5. Answer Key -->
+    <div class="box-table">
+      <div class="box-header">Answer Key</div>
+      <ul class="box-list">
+        <li><span class="bullet">•</span> <a href="#">UPSSSC PET Answer Key Objection 2026</a></li>
+        <li><span class="bullet">•</span> <a href="#">Rajasthan SET Final Answer Key 2026 – Out</a></li>
+        <li><span class="bullet">•</span> <a href="#">UP Special TET Answer Key 2026</a></li>
+        <li><span class="bullet">•</span> <a href="#">SSC CGL Tier-I Answer Key 2026 – Out</a></li>
+        <li><span class="bullet">•</span> <a href="#">BSF HC RO / RM Answer Key 2026</a></li>
+      </ul>
+      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+    </div>
+
+    <!-- 6. Admit Cards -->
+    <div class="box-table" id="admit">
+      <div class="box-header">Admit Cards</div>
+      <ul class="box-list">
+        <li><span class="bullet">•</span> <a href="#">NICL Administrative Officer Pre Admit Card</a></li>
+        <li><span class="bullet">•</span> <a href="#">IBPS RRB 15th Officer Scale-I Pre Admit Card</a></li>
+        <li><span class="bullet">•</span> <a href="#">Supreme Court Junior Assistant Exam City</a></li>
+        <li><span class="bullet">•</span> <a href="#">RRB ALP CBAT Re-Exam Admit Card 2026</a></li>
+        <li><span class="bullet">•</span> <a href="#">UPESSC Assistant Professor Exam City</a></li>
+      </ul>
+      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+    </div>
+
+    <!-- 7. Admission -->
+    <div class="box-table">
+      <div class="box-header">Admission</div>
+      <ul class="box-list">
+        <li><span class="bullet">•</span> <a href="#">NTA CSIR UGC NET Online Form 2026</a></li>
+        <li><span class="bullet">•</span> <a href="#">NTA AISSEE 2027 Online Form</a></li>
+        <li><span class="bullet">•</span> <a href="#">NTA JEE Mains Session I Form 2027</a></li>
+        <li><span class="bullet">•</span> <a href="#">Bihar BSEB DELED Spot Admission 2026</a></li>
+        <li><span class="bullet">•</span> <a href="#">UP Polytechnic JEECUP Online Form</a></li>
+      </ul>
+      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+    </div>
+
+    <!-- 8. 10th / ITI Jobs -->
+    <div class="box-table" id="tenth">
+      <div class="box-header">10th/ITI Jobs</div>
+      <ul class="box-list">
+        <li><span class="bullet">•</span> <a href="#">RRB NTPC 10+2 UG Online Form (1688 Posts)</a></li>
+        <li><span class="bullet">•</span> <a href="#">UPSSSC Inter 12th Level Online Form 2026</a></li>
+        <li><span class="bullet">•</span> <a href="#">Railway RRC Apprentice Various Trade Online</a></li>
+        <li><span class="bullet">•</span> <a href="#">MPESB Police Constable Driver Form 2026</a></li>
+        <li><span class="bullet">•</span> <a href="#">ITBP Motor Mechanic Online Form 2026</a></li>
+      </ul>
+      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+    </div>
+
+    <!-- 9. Outsourcing Jobs -->
+    <div class="box-table">
+      <div class="box-header">Outsourcing Jobs</div>
+      <ul class="box-list">
+        <li><span class="bullet">•</span> <a href="#">UP Bulandshahar ECCE Educator Form 2026</a></li>
+        <li><span class="bullet">•</span> <a href="#">UP Kanpur ECCE Educator Online Form 2026</a></li>
+        <li><span class="bullet">•</span> <a href="#">UP Mathura ECCE Educator Online Form 2026</a></li>
+        <li><span class="bullet">•</span> <a href="#">UP Meerut ECCE Educator Online Form 2026</a></li>
+        <li><span class="bullet">•</span> <a href="#">UP Ayodhya ECCE Educator Form 2026</a></li>
+      </ul>
+      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+    </div>
+
+    <!-- 10. Syllabus -->
+    <div class="box-table">
+      <div class="box-header">Syllabus</div>
+      <ul class="box-list">
+        <li><span class="bullet">•</span> <a href="#">RRB NTPC 10+2 UG Exam Pattern & Syllabus</a></li>
+        <li><span class="bullet">•</span> <a href="#">UPESSC Assistant Teacher New Syllabus 2026</a></li>
+        <li><span class="bullet">•</span> <a href="#">BPSC School Teacher TRE 4.0 Syllabus</a></li>
+        <li><span class="bullet">•</span> <a href="#">ISRO Scientist Exam Scheme & Topics</a></li>
+        <li><span class="bullet">•</span> <a href="#">Bihar STET Official Syllabus 2026</a></li>
+      </ul>
+      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+    </div>
+
+    <!-- 11. Documents & Yojana -->
+    <div class="box-table" id="yojana">
+      <div class="box-header">Documents & Yojana</div>
+      <ul class="box-list">
+        <li><span class="bullet">•</span> <a href="https://pmsuryaghar.gov.in/" target="_blank">PM Surya Ghar Muft Bijli Yojana Apply</a></li>
+        <li><span class="bullet">•</span> <a href="https://myaadhaar.uidai.gov.in/" target="_blank">Aadhar Card Download & Correction 2026</a></li>
+        <li><span class="bullet">•</span> <a href="https://www.onlineservices.nsdl.com/" target="_blank">PAN Card Registration & Status 2026</a></li>
+        <li><span class="bullet">•</span> <a href="https://voters.eci.gov.in/" target="_blank">Voter ID Online Apply / Form 6 ECI</a></li>
+        <li><span class="bullet">•</span> <a href="https://scholarship.up.gov.in/" target="_blank">UP Scholarship Online Form 2026-27</a></li>
+      </ul>
+      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+    </div>
+
+  </div>
+
+  <!-- Supabase Live Data Link Script -->
   <script>
-    const SUPABASE_URL = "https://amyhcstvmpkrxualrfak.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_LkEw1-6mpxCzlS0doodPfA_0UsTSszn";
+    const SUPABASE_URL = "https://xmyhcstumpkrxualrfak.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_Lk0xI-AmpXCzlSOdoodPFA_OUsTSszm";
 
     let allJobs = [];
 
     async function loadJobs() {
-      const msgBox = document.getElementById("statusMessage");
-      const activeContainer = document.getElementById("activeJobsList");
-      const expiredContainer = document.getElementById("expiredJobsList");
-
       try {
         const response = await fetch(`${SUPABASE_URL}/rest/v1/jobs?select=*`, {
           headers: {
@@ -63,69 +309,43 @@
             "Authorization": `Bearer ${SUPABASE_KEY}`
           }
         });
-
-        if (!response.ok) {
-          const detail = await response.text();
-          throw new Error("HTTP " + response.status + ": " + detail);
-        }
+        if (!response.ok) return;
 
         allJobs = await response.json();
-
-        if (!allJobs || allJobs.length === 0) {
-          activeContainer.innerHTML = '<p style="color:gray;padding:15px;text-align:center;">डेटाबेस में अभी कोई डेटा नहीं है।</p>';
-          expiredContainer.innerHTML = '';
-          return;
+        if (allJobs && allJobs.length > 0) {
+          renderDynamicJobs(allJobs);
         }
-
-        renderSections(allJobs);
       } catch (err) {
-        msgBox.innerHTML = `
-          <div class="error-box">
-            <b>अटकने का कारण:</b><br>
-            <code>${err.message}</code>
-          </div>`;
-        activeContainer.innerHTML = '';
-        expiredContainer.innerHTML = '';
+        console.log("Database Sync Notice: ", err.message);
       }
     }
 
-    function renderSections(jobs) {
-      const activeContainer = document.getElementById("activeJobsList");
-      const expiredContainer = document.getElementById("expiredJobsList");
+    function renderDynamicJobs(jobs) {
+      const sarkariList = document.getElementById("sarkari-jobs-list");
+      const privateList = document.getElementById("private-jobs-list");
+      const fresherList = document.getElementById("fresher-jobs-list");
 
-      const activeJobs = jobs.filter(j => j.status === 'Active');
-      const expiredJobs = jobs.filter(j => j.status === 'Expired');
+      const sarkari = jobs.filter(j => !j.category || j.category.toLowerCase() === 'sarkari');
+      const privateJobs = jobs.filter(j => j.category && j.category.toLowerCase() === 'private');
+      const freshers = jobs.filter(j => j.category && (j.category.toLowerCase() === 'fresher' || j.category.toLowerCase() === 'freshers'));
 
-      activeContainer.innerHTML = activeJobs.length ? activeJobs.map(j => `
-        <div class="job-card active">
-          <div class="job-title">${j.title || 'शीर्षक उपलब्ध नहीं'}</div>
-          <div class="job-dept">विभाग: ${j.company_dept || 'सरकारी / प्राइवेट विभाग'}</div>
-          <div class="job-meta">
-            <span class="last-date">अंतिम तिथि: ${j.last_date ? j.last_date.split('T')[0] : 'जारी'}</span>
-            <a href="${j.apply_link || '#'}" target="_blank" rel="noopener" class="apply-btn">अप्लाई करें</a>
-          </div>
-        </div>
-      `).join('') : '<p style="color:gray;padding:10px;">कोई एक्टिव फॉर्म नहीं है।</p>';
-
-      expiredContainer.innerHTML = expiredJobs.length ? expiredJobs.map(j => `
-        <div class="job-card expired">
-          <div class="job-title">${j.title || 'शीर्षक उपलब्ध नहीं'}</div>
-          <div class="job-dept">विभाग: ${j.company_dept || 'सरकारी / प्राइवेट विभाग'}</div>
-          <div class="job-meta">
-            <span class="expired-badge">समाप्त: ${j.last_date ? j.last_date.split('T')[0] : ''}</span>
-            <span class="closed-btn">आवेदन बंद</span>
-          </div>
-        </div>
-      `).join('') : '<p style="color:gray;padding:10px;">कोई समाप्त भर्ती नहीं है।</p>';
+      if (sarkari.length && sarkariList) {
+        sarkariList.innerHTML = sarkari.map(j => `<li><span class="bullet">•</span> <a href="${j.apply_link || '#'}" target="_blank">${j.title}</a></li>`).join('');
+      }
+      if (privateJobs.length && privateList) {
+        privateList.innerHTML = privateJobs.map(j => `<li><span class="bullet">•</span> <a href="${j.apply_link || '#'}" target="_blank">${j.title}</a></li>`).join('');
+      }
+      if (freshers.length && fresherList) {
+        fresherList.innerHTML = freshers.map(j => `<li><span class="bullet">•</span> <a href="${j.apply_link || '#'}" target="_blank">${j.title}</a></li>`).join('');
+      }
     }
 
     function filterJobs() {
       const term = document.getElementById("searchInput").value.toLowerCase();
-      const filtered = allJobs.filter(j => 
-        (j.title && j.title.toLowerCase().includes(term)) ||
-        (j.company_dept && j.company_dept.toLowerCase().includes(term))
-      );
-      renderSections(filtered);
+      document.querySelectorAll(".box-list li").forEach(li => {
+        const txt = li.innerText.toLowerCase();
+        li.style.display = txt.includes(term) ? "" : "none";
+      });
     }
 
     loadJobs();
