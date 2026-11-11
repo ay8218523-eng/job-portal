@@ -141,19 +141,21 @@
       <div class="section-card">
         <h3>आवेदन शुल्क (Application Fee)</h3>
         <ul>
-          <li id="jFee">Gen / OBC: <b>₹100/-</b> | SC / ST / PH: <b>₹0/-</b></li>
+          <li id="jFee">Gen / OBC / EWS: <b>₹100/-</b> | SC / ST / PH: <b>₹0/-</b></li>
           <li>महिला (All Category Female): <b>₹0/-</b> (नियम अनुसार)</li>
           <li>भुगतान का माध्यम: <b>Online Debit Card / Credit / Net Banking / UPI</b></li>
         </ul>
       </div>
 
-      <!-- 3. Age Limit -->
+      <!-- 3. Age Limit (सरकारी आरक्षण नियमों के अनुसार सटीक) -->
       <div class="section-card">
         <h3>आयु सीमा (Age Limit)</h3>
         <ul>
           <li>न्यूनतम आयु (Min Age): <b>18 वर्ष</b></li>
-          <li>अधिकतम आयु (Max Age): <b id="jAge">25 से 30 वर्ष (पदानुसार)</b></li>
-          <li>आरक्षित वर्गों (SC/ST/OBC) को नियमानुसार छूट लागू।</li>
+          <li>सामान्य वर्ग (Gen / UR Max Age): <b id="jAge">23 से 27 वर्ष (पदानुसार)</b></li>
+          <li><b>OBC (नॉन-क्रीमी लेयर):</b> 3 वर्ष की अधिकतम आयु छूट (+3 Years)</li>
+          <li><b>SC / ST वर्ग:</b> 5 वर्ष की अधिकतम आयु छूट (+5 Years)</li>
+          <li>विस्तृत पदानुसार छूट हेतु आधिकारिक अधिसूचना देखें।</li>
         </ul>
       </div>
 
@@ -218,7 +220,6 @@
     const jobDept = params.get("dept");
     const jobLink = params.get("link");
 
-    // डायरेक्ट फॉर्म मैपिंग (सरकारी + प्राइवेट दोनों)
     function getDirectFormLink(title, defaultLink) {
       const t = (title || "").toLowerCase();
       
