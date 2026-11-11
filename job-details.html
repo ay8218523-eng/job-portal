@@ -27,7 +27,6 @@
       text-decoration: none;
     }
 
-    /* Sarkari Sheet Header */
     .sheet-header {
       background-color: #b30000;
       color: #ffffff;
@@ -39,7 +38,6 @@
     .sheet-header h1 { font-size: 18px; font-weight: bold; line-height: 1.4; }
     .sheet-header p { font-size: 13px; opacity: 0.95; margin-top: 4px; }
 
-    /* 2 Column Details Layout */
     .sheet-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -67,7 +65,6 @@
       line-height: 1.6;
     }
 
-    /* Vacancy Eligibility Table */
     .vac-table {
       width: 100%;
       border-collapse: collapse;
@@ -84,7 +81,6 @@
       color: #ffffff;
     }
 
-    /* Action Links Table */
     .links-sheet {
       width: 100%;
       border-collapse: collapse;
@@ -110,6 +106,7 @@
       font-weight: bold;
       text-decoration: none;
       border-radius: 4px;
+      cursor: pointer;
     }
     .btn-apply-main:hover { background-color: #166534; }
 
@@ -129,7 +126,7 @@
     </div>
 
     <div class="sheet-grid">
-      <!-- 1. Important Dates -->
+      <!-- 1. Dates -->
       <div class="section-card">
         <h3>महत्वपूर्ण तिथियाँ (Important Dates)</h3>
         <ul>
@@ -140,7 +137,7 @@
         </ul>
       </div>
 
-      <!-- 2. Application Fee -->
+      <!-- 2. Fee -->
       <div class="section-card">
         <h3>आवेदन शुल्क (Application Fee)</h3>
         <ul>
@@ -160,7 +157,7 @@
         </ul>
       </div>
 
-      <!-- 4. Eligibility Details -->
+      <!-- 4. Eligibility -->
       <div class="section-card">
         <h3>पात्रता विवरण (Eligibility)</h3>
         <ul>
@@ -170,7 +167,6 @@
       </div>
     </div>
 
-    <!-- Vacancy Summary Table -->
     <table class="vac-table">
       <thead>
         <tr>
@@ -188,7 +184,6 @@
       </tbody>
     </table>
 
-    <!-- Direct Links Table -->
     <table class="links-sheet">
       <thead>
         <tr>
@@ -198,16 +193,16 @@
       </thead>
       <tbody>
         <tr>
-          <td><b>Apply Online (सीधा ऑनलाइन आवेदन करें)</b></td>
-          <td><a href="#" id="jApplyBtn" target="_blank" class="btn-apply-main">सीधे यहाँ आवेदन करें ↗</a></td>
+          <td><b>Apply Online (सीधा ऑनलाइन आवेदन / रजिस्ट्रेशन करें)</b></td>
+          <td><a href="https://ssc.gov.in/login" id="jApplyBtn" target="_blank" class="btn-apply-main">सीधे यहाँ आवेदन करें ↗</a></td>
         </tr>
         <tr>
           <td>Download Official Notification / Details</td>
-          <td><a href="#" id="jNotifBtn" target="_blank" style="color: #004d99; font-weight: bold; text-decoration: underline;">अधिसूचना खोलें ↗</a></td>
+          <td><a href="https://ssc.gov.in/" id="jNotifBtn" target="_blank" style="color: #004d99; font-weight: bold; text-decoration: underline;">अधिसूचना खोलें ↗</a></td>
         </tr>
         <tr>
-          <td>Official Website (विभागीय आधिकारिक पोर्टल)</td>
-          <td><a href="#" id="jOfficialBtn" target="_blank" style="color: #4b5563; font-weight: 500;">आधिकारिक वेबसाइट ↗</a></td>
+          <td>Official Recruitment Portal (विभागीय पोर्टल)</td>
+          <td><a href="https://ssc.gov.in/" id="jOfficialBtn" target="_blank" style="color: #4b5563; font-weight: 500;">आधिकारिक पोर्टल ↗</a></td>
         </tr>
       </tbody>
     </table>
@@ -219,14 +214,51 @@
 
     const params = new URLSearchParams(window.location.search);
     const jobId = params.get("id");
+    const jobTitle = params.get("title");
+    const jobDept = params.get("dept");
+    const jobLink = params.get("link");
+
+    // डायरेक्ट फॉर्म मैपिंग (सरकारी + प्राइवेट दोनों)
+    function getDirectFormLink(title, defaultLink) {
+      const t = (title || "").toLowerCase();
+      
+      // Sarkari
+      if (t.includes("ssc")) return "https://ssc.gov.in/login";
+      if (t.includes("rrb") || t.includes("railway") || t.includes("ntpc")) return "https://www.rrbapply.gov.in/#/auth/home";
+      if (t.includes("upsssc")) return "http://upsssc.gov.in/AllNotifications.aspx";
+      if (t.includes("police")) return "http://uppbpb.gov.in/";
+      if (t.includes("ibps")) return "https://ibpsonline.ibps.in/";
+      if (t.includes("army") || t.includes("agniveer")) return "https://joinindianarmy.nic.in/Authentication.aspx";
+
+      // Private & MNCs
+      if (t.includes("tcs")) return "https://nextstep.tcs.com/campus/";
+      if (t.includes("amazon")) return "https://amazon.jobs/en/search?base_query=India";
+      if (t.includes("wipro")) return "https://careers.wipro.com/careers-home/";
+      if (t.includes("infosys")) return "https://career.infosys.com/";
+      if (t.includes("hdfc")) return "https://www.hdfcbank.com/personal/about-us/careers";
+      if (t.includes("axis")) return "https://www.axisbank.com/careers/job-openings";
+      if (t.includes("flipkart")) return "https://www.flipkartcareers.com/";
+
+      return defaultLink || "https://ssc.gov.in/login";
+    }
 
     async function loadFullJobSheet() {
-      if (!jobId) {
-        document.getElementById("jTitle").innerText = "कृपया मुख्य पृष्ठ से किसी नौकरी पर क्लिक करें!";
+      if (jobTitle) {
+        const decodedTitle = decodeURIComponent(jobTitle);
+        document.getElementById("jTitle").innerText = decodedTitle;
+        document.getElementById("tablePostName").innerText = decodedTitle;
+        if (jobDept) document.getElementById("jDept").innerText = decodeURIComponent(jobDept);
+        
+        const rawUrl = jobLink ? decodeURIComponent(jobLink) : "https://ssc.gov.in/login";
+        const directFormUrl = getDirectFormLink(decodedTitle, rawUrl);
+
+        document.getElementById("jApplyBtn").href = directFormUrl;
+        document.getElementById("jNotifBtn").href = directFormUrl;
+        document.getElementById("jOfficialBtn").href = directFormUrl;
         return;
       }
 
-      if (!isNaN(jobId)) {
+      if (jobId && !isNaN(jobId)) {
         try {
           const res = await fetch(`${SUPABASE_URL}/rest/v1/jobs?id=eq.${jobId}&select=*`, {
             headers: {
@@ -247,11 +279,10 @@
             if (j.eligibility) document.getElementById("jEligibility").innerText = j.eligibility;
             if (j.total_posts) document.getElementById("tableTotalPosts").innerText = j.total_posts;
 
-            // Direct Links
-            const targetUrl = j.apply_link || "https://ssc.gov.in/";
-            document.getElementById("jApplyBtn").href = targetUrl;
-            document.getElementById("jNotifBtn").href = targetUrl;
-            document.getElementById("jOfficialBtn").href = targetUrl;
+            const finalDirectUrl = getDirectFormLink(j.title, j.apply_link);
+            document.getElementById("jApplyBtn").href = finalDirectUrl;
+            document.getElementById("jNotifBtn").href = finalDirectUrl;
+            document.getElementById("jOfficialBtn").href = finalDirectUrl;
             return;
           }
         } catch (err) {
@@ -259,11 +290,11 @@
         }
       }
 
-      // Sample fallback
       document.getElementById("jTitle").innerText = "Recruitment Online Application Form 2026";
-      document.getElementById("jApplyBtn").href = "https://ssc.gov.in/";
-      document.getElementById("jNotifBtn").href = "https://ssc.gov.in/";
-      document.getElementById("jOfficialBtn").href = "https://ssc.gov.in/";
+      document.getElementById("jDept").innerText = "आधिकारिक भर्ती बोर्ड";
+      document.getElementById("jApplyBtn").href = "https://ssc.gov.in/login";
+      document.getElementById("jNotifBtn").href = "https://ssc.gov.in/login";
+      document.getElementById("jOfficialBtn").href = "https://ssc.gov.in/login";
     }
 
     loadFullJobSheet();
