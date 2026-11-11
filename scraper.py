@@ -64,7 +64,7 @@ def fetch_jobs():
     for feed in feeds_config:
         try:
             parsed = feedparser.parse(feed["url"])
-            for entry in parsed.entries[:8]:
+            for entry in parsed.entries[:25]:
                 title = entry.get("title", "").strip()
                 link = entry.get("link", "").strip()
 
