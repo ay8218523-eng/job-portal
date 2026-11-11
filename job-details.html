@@ -1,1 +1,219 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Details - SarkariPvtJobs</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
+    body { background-color: #f4f6f9; color: #111; padding: 10px; }
+    
+    .container {
+      max-width: 800px;
+      margin: 15px auto;
+      background: #ffffff;
+      border: 2px solid #b30000;
+      border-radius: 6px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
 
+    .main-title {
+      color: #b30000;
+      font-size: 20px;
+      text-align: center;
+      font-weight: 800;
+      border-bottom: 2px solid #b30000;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+
+    /* 2 Column Details Grid */
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .info-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      padding: 12px;
+      background: #f8fafc;
+    }
+
+    .info-card h3 {
+      font-size: 15px;
+      color: #004d99;
+      margin-bottom: 8px;
+      border-bottom: 1px dashed #cbd5e1;
+      padding-bottom: 4px;
+    }
+
+    .info-card ul {
+      list-style-type: disc;
+      padding-left: 20px;
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    /* Action Links Table */
+    .links-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    .links-table th, .links-table td {
+      border: 1px solid #b30000;
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .links-table th {
+      background-color: #b30000;
+      color: #ffffff;
+    }
+
+    .btn-apply {
+      display: inline-block;
+      background-color: #008000;
+      color: #ffffff;
+      padding: 8px 16px;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 4px;
+    }
+
+    .btn-apply:hover { background-color: #006400; }
+
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 12px;
+      color: #004d99;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .details-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <a href="index.html" class="back-btn">⬅ वापस होमपेज पर जाएं</a>
+
+    <h1 class="main-title" id="jobTitle">लोड हो रहा है...</h1>
+
+    <div class="details-grid">
+      <!-- Important Dates -->
+      <div class="info-card">
+        <h3>महत्वपूर्ण तिथियाँ (Important Dates)</h3>
+        <ul>
+          <li>अंतिम तिथि (Last Date): <b id="lastDate">--</b></li>
+          <li>आवेदन मोड: <b>ऑनलाइन (Online)</b></li>
+          <li>परीक्षा तिथि: <b>जल्द सूचित की जाएगी</b></li>
+        </ul>
+      </div>
+
+      <!-- Application Fee -->
+      <div class="info-card">
+        <h3>आवेदन शुल्क (Application Fee)</h3>
+        <ul id="feeDetails">
+          <li>सामान्य / ओबीसी (General/OBC): ₹100/-</li>
+          <li>एससी / एसटी (SC/ST): ₹0/-</li>
+          <li>भुगतान माध्यम: ऑनलाइन (Debit / Credit / UPI)</li>
+        </ul>
+      </div>
+
+      <!-- Age Limit -->
+      <div class="info-card">
+        <h3>आयु सीमा (Age Limit)</h3>
+        <ul>
+          <li>न्यूनतम आयु: <b>18 वर्ष</b></li>
+          <li>अधिकतम आयु: <b id="ageLimit">25 - 28 वर्ष</b></li>
+          <li>नियमानुसार आयु में छूट लागू।</li>
+        </ul>
+      </div>
+
+      <!-- Eligibility -->
+      <div class="info-card">
+        <h3>योग्यता (Eligibility Details)</h3>
+        <ul>
+          <li id="eligibility">10वीं / 12वीं / स्नातक (Graduation) पास</li>
+          <li>कुल पद (Total Vacancies): <b id="totalPosts">उपलब्ध नहीं</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Official Links -->
+    <table class="links-table">
+      <thead>
+        <tr>
+          <th>ऑनलाइन सेवा / लिंक</th>
+          <th>क्लिक करें</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Apply Online (सीधा आवेदन करें)</b></td>
+          <td><a href="#" id="applyLink" target="_blank" class="btn-apply">यहाँ क्लिक करें</a></td>
+        </tr>
+        <tr>
+          <td>Download Official Notification</td>
+          <td><a href="#" id="notifLink" target="_blank" style="color: #004d99; font-weight: bold;">Download PDF</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const SUPABASE_URL = "https://amyhcstvmpkrxualrfak.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_Lk0xI-AmpXCzlSOdoodPFA_OUsTSszm";
+
+    // URL से Job ID निकालना (उदा: ?id=5)
+    const params = new URLSearchParams(window.location.search);
+    const jobId = params.get("id");
+
+    async function fetchJobDetails() {
+      if (!jobId) {
+        document.getElementById("jobTitle").innerText = "कोई नौकरी नहीं चुनी गई!";
+        return;
+      }
+
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/jobs?id=eq.${jobId}&select=*`, {
+          headers: {
+            "apikey": SUPABASE_KEY,
+            "Authorization": `Bearer ${SUPABASE_KEY}`
+          }
+        });
+        const data = await response.json();
+
+        if (data && data.length > 0) {
+          const job = data[0];
+          document.getElementById("jobTitle").innerText = job.title;
+          document.getElementById("lastDate").innerText = job.last_date || "जल्द समाप्त";
+          document.getElementById("applyLink").href = job.apply_link || "#";
+          document.getElementById("notifLink").href = job.apply_link || "#";
+
+          if (job.age_limit) document.getElementById("ageLimit").innerText = job.age_limit;
+          if (job.eligibility) document.getElementById("eligibility").innerText = job.eligibility;
+          if (job.total_posts) document.getElementById("totalPosts").innerText = job.total_posts;
+        } else {
+          document.getElementById("jobTitle").innerText = "विवरण उपलब्ध नहीं है!";
+        }
+      } catch (err) {
+        console.error("Error loading job details:", err);
+      }
+    }
+
+    fetchJobDetails();
+  </script>
+</body>
+</html>
