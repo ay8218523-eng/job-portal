@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
@@ -18,9 +18,44 @@
     .site-header h1 { font-size: 26px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 4px; }
     .site-header p { font-size: 13px; opacity: 0.95; }
 
-    /* Search Bar */
-    .search-container { text-align: center; padding: 10px; background-color: #f1f1f1; border-bottom: 1px solid #ddd; }
-    .search-input { width: 95%; max-width: 500px; padding: 9px 12px; font-size: 14px; border: 1px solid #b30000; border-radius: 4px; outline: none; }
+    /* Search Bar with Search Button */
+    .search-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 8px;
+      background-color: #f1f1f1;
+      border-bottom: 1px solid #ddd;
+    }
+    .search-input {
+      width: 65%;
+      max-width: 400px;
+      padding: 9px 12px;
+      font-size: 14px;
+      border: 1px solid #b30000;
+      border-radius: 4px;
+      outline: none;
+    }
+    .search-btn {
+      background-color: #b30000;
+      color: #ffffff;
+      border: none;
+      padding: 9px 15px;
+      font-size: 13.5px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .clear-btn {
+      background-color: #6b7280;
+      color: #ffffff;
+      border: none;
+      padding: 9px 12px;
+      font-size: 13px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
 
     /* Quick Highlight Badges */
     .quick-tools {
@@ -115,7 +150,6 @@
       border-radius: 20px;
       display: inline-block;
     }
-    .btn-view-more:hover { background-color: #1565c0; }
 
     @media (min-width: 900px) {
       .portal-main-grid { grid-template-columns: repeat(4, 1fr); }
@@ -131,12 +165,14 @@
     <p>SarkariPvtJobs.in — All Latest Government & Private Jobs, Freshers Hiring</p>
   </div>
 
-  <!-- Search -->
+  <!-- Search Bar with Button -->
   <div class="search-container">
-    <input type="text" id="searchInput" class="search-input" placeholder="नौकरी खोजें (Search Any Job / Result)..." onkeyup="filterJobs()">
+    <input type="text" id="searchInput" class="search-input" placeholder="नौकरी या विभाग खोजें..." onkeyup="checkEnter(event)">
+    <button class="search-btn" onclick="filterJobs()">🔍 खोजें</button>
+    <button class="clear-btn" onclick="clearSearch()" title="हटाएं">✖</button>
   </div>
 
-  <!-- Color Buttons (Tools) -->
+  <!-- Quick Highlight Buttons -->
   <div class="quick-tools">
     <a href="#fresher" class="tool-btn bg-red">Freshers Walk-in<br>(0-Exp Jobs)</a>
     <a href="#private" class="tool-btn bg-orange">Top Private<br>Hiring 2026</a>
@@ -153,130 +189,112 @@
     <div class="box-table" id="private">
       <div class="box-header">Latest Private Jobs</div>
       <ul class="box-list" id="private-jobs-list">
-        <li><span class="bullet">•</span> <a href="#">TCS NQT National Qualifier Test 2026</a></li>
-        <li><span class="bullet">•</span> <a href="#">HDFC Bank Operations & Back Office Executive</a></li>
-        <li><span class="bullet">•</span> <a href="#">Wipro Work From Home Customer Support Drive</a></li>
-        <li><span class="bullet">•</span> <a href="#">Infosys BPM Process Executive Hiring</a></li>
-        <li><span class="bullet">•</span> <a href="#">Reliance Jio Delivery & Operations Lead</a></li>
+        <li><span class="bullet">•</span> <a href="https://www.ncs.gov.in/" target="_blank">TCS NQT Registration Drive 2026</a></li>
+        <li><span class="bullet">•</span> <a href="https://www.ncs.gov.in/" target="_blank">HDFC Bank Operations Executive Hiring</a></li>
+        <li><span class="bullet">•</span> <a href="https://www.ncs.gov.in/" target="_blank">Wipro Customer Support WFH Jobs</a></li>
+        <li><span class="bullet">•</span> <a href="https://www.ncs.gov.in/" target="_blank">Infosys BPM Process Associate Apply</a></li>
       </ul>
-      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+      <div class="view-more-container"><a href="https://www.ncs.gov.in/" target="_blank" class="btn-view-more">View More</a></div>
     </div>
 
     <!-- 2. Fresher Jobs -->
     <div class="box-table" id="fresher">
       <div class="box-header">Freshers Jobs (Any Degree/12th)</div>
       <ul class="box-list" id="fresher-jobs-list">
-        <li><span class="bullet">•</span> <a href="#">Amazon Virtual Customer Service (Freshers WFH)</a></li>
-        <li><span class="bullet">•</span> <a href="#">Axis Bank Young Bankers Program Trainee</a></li>
-        <li><span class="bullet">•</span> <a href="#">Genpact Junior Finance & HR Associate</a></li>
-        <li><span class="bullet">•</span> <a href="#">Zomato / Swiggy Office Trainee Recruitment</a></li>
-        <li><span class="bullet">•</span> <a href="#">Tech Mahindra Voice & Non-Voice Process</a></li>
+        <li><span class="bullet">•</span> <a href="https://www.ncs.gov.in/" target="_blank">Amazon Customer Support Trainee (WFH)</a></li>
+        <li><span class="bullet">•</span> <a href="https://www.ncs.gov.in/" target="_blank">Axis Bank Young Bankers Program 2026</a></li>
+        <li><span class="bullet">•</span> <a href="https://www.ncs.gov.in/" target="_blank">Genpact Junior Process Associate</a></li>
+        <li><span class="bullet">•</span> <a href="https://www.ncs.gov.in/" target="_blank">Tech Mahindra Voice / Non-Voice Drive</a></li>
       </ul>
-      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+      <div class="view-more-container"><a href="https://www.ncs.gov.in/" target="_blank" class="btn-view-more">View More</a></div>
     </div>
 
     <!-- 3. Results -->
     <div class="box-table">
       <div class="box-header">Results</div>
       <ul class="box-list" id="results-list">
-        <li><span class="bullet">•</span> <a href="#">UPSSSC PET Answer Key Objection 2026</a></li>
-        <li><span class="bullet">•</span> <a href="#">UPSSSC BCG Technician Result 2026 – Out</a></li>
-        <li><span class="bullet">•</span> <a href="#">BPSC 71th Mains Result 2026 – Out</a></li>
-        <li><span class="bullet">•</span> <a href="#">BPSC AES Result 2026 – Out</a></li>
-        <li><span class="bullet">•</span> <a href="#">UP Police Constable Result 2026</a></li>
+        <li><span class="bullet">•</span> <a href="http://upsssc.gov.in/" target="_blank">UPSSSC PET Result & Score Card 2026</a></li>
+        <li><span class="bullet">•</span> <a href="https://bpsc.bih.nic.in/" target="_blank">BPSC 71th Mains Result Declared</a></li>
+        <li><span class="bullet">•</span> <a href="https://ssc.gov.in/" target="_blank">SSC CGL Tier-I Result 2026 – Out</a></li>
+        <li><span class="bullet">•</span> <a href="http://uppbpb.gov.in/" target="_blank">UP Police Constable Final Result 2026</a></li>
       </ul>
-      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+      <div class="view-more-container"><a href="http://upsssc.gov.in/" target="_blank" class="btn-view-more">View More</a></div>
     </div>
 
     <!-- 4. Latest Sarkari Jobs -->
     <div class="box-table" id="sarkari">
       <div class="box-header">Latest Sarkari Jobs</div>
       <ul class="box-list" id="sarkari-jobs-list">
-        <li><span class="bullet">•</span> <a href="#">Armed Forces AFMS SSC Medical Officer Form</a></li>
-        <li><span class="bullet">•</span> <a href="#">Supreme Court SPA Online Form 2026</a></li>
-        <li><span class="bullet">•</span> <a href="#">RRB NTPC 10+2 UG Online Form (1688 Posts)</a></li>
-        <li><span class="bullet">•</span> <a href="#">UPSSSC Junior Engineer JE (1156 Posts)</a></li>
-        <li><span class="bullet">•</span> <a href="#">AFCAT 01/2027 Batch Online Form</a></li>
+        <li><span class="bullet">•</span> <a href="https://rrbapply.gov.in/" target="_blank">RRB NTPC 10+2 UG Online Form (1688 Posts)</a></li>
+        <li><span class="bullet">•</span> <a href="http://upsssc.gov.in/" target="_blank">UPSSSC Junior Engineer JE (1156 Posts)</a></li>
+        <li><span class="bullet">•</span> <a href="https://ssc.gov.in/" target="_blank">SSC GD Constable Online Form 2026</a></li>
+        <li><span class="bullet">•</span> <a href="https://afcat.cdac.in/" target="_blank">AFCAT 01/2027 Batch Online Form</a></li>
       </ul>
-      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+      <div class="view-more-container"><a href="https://ssc.gov.in/" target="_blank" class="btn-view-more">View More</a></div>
     </div>
 
     <!-- 5. Answer Key -->
     <div class="box-table">
       <div class="box-header">Answer Key</div>
       <ul class="box-list">
-        <li><span class="bullet">•</span> <a href="#">UPSSSC PET Answer Key Objection 2026</a></li>
-        <li><span class="bullet">•</span> <a href="#">Rajasthan SET Final Answer Key 2026 – Out</a></li>
-        <li><span class="bullet">•</span> <a href="#">UP Special TET Answer Key 2026</a></li>
-        <li><span class="bullet">•</span> <a href="#">SSC CGL Tier-I Answer Key 2026 – Out</a></li>
-        <li><span class="bullet">•</span> <a href="#">BSF HC RO / RM Answer Key 2026</a></li>
+        <li><span class="bullet">•</span> <a href="http://upsssc.gov.in/" target="_blank">UPSSSC PET Official Answer Key 2026</a></li>
+        <li><span class="bullet">•</span> <a href="https://ssc.gov.in/" target="_blank">SSC CGL Tier-I Answer Key – Out</a></li>
+        <li><span class="bullet">•</span> <a href="https://rect.bsf.gov.in/" target="_blank">BSF HC RO / RM Answer Key 2026</a></li>
       </ul>
-      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+      <div class="view-more-container"><a href="https://ssc.gov.in/" target="_blank" class="btn-view-more">View More</a></div>
     </div>
 
     <!-- 6. Admit Cards -->
     <div class="box-table" id="admit">
       <div class="box-header">Admit Cards</div>
       <ul class="box-list">
-        <li><span class="bullet">•</span> <a href="#">NICL Administrative Officer Pre Admit Card</a></li>
-        <li><span class="bullet">•</span> <a href="#">IBPS RRB 15th Officer Scale-I Pre Admit Card</a></li>
-        <li><span class="bullet">•</span> <a href="#">Supreme Court Junior Assistant Exam City</a></li>
-        <li><span class="bullet">•</span> <a href="#">RRB ALP CBAT Re-Exam Admit Card 2026</a></li>
-        <li><span class="bullet">•</span> <a href="#">UPESSC Assistant Professor Exam City</a></li>
+        <li><span class="bullet">•</span> <a href="https://ibps.in/" target="_blank">IBPS RRB 15th Officer Scale-I Admit Card</a></li>
+        <li><span class="bullet">•</span> <a href="https://rrbapply.gov.in/" target="_blank">RRB ALP CBAT Exam Admit Card 2026</a></li>
+        <li><span class="bullet">•</span> <a href="https://main.sci.gov.in/" target="_blank">Supreme Court Junior Assistant Exam City</a></li>
       </ul>
-      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+      <div class="view-more-container"><a href="https://rrbapply.gov.in/" target="_blank" class="btn-view-more">View More</a></div>
     </div>
 
     <!-- 7. Admission -->
     <div class="box-table">
       <div class="box-header">Admission</div>
       <ul class="box-list">
-        <li><span class="bullet">•</span> <a href="#">NTA CSIR UGC NET Online Form 2026</a></li>
-        <li><span class="bullet">•</span> <a href="#">NTA AISSEE 2027 Online Form</a></li>
-        <li><span class="bullet">•</span> <a href="#">NTA JEE Mains Session I Form 2027</a></li>
-        <li><span class="bullet">•</span> <a href="#">Bihar BSEB DELED Spot Admission 2026</a></li>
-        <li><span class="bullet">•</span> <a href="#">UP Polytechnic JEECUP Online Form</a></li>
+        <li><span class="bullet">•</span> <a href="https://jeemain.nta.nic.in/" target="_blank">NTA JEE Mains Session I Form 2027</a></li>
+        <li><span class="bullet">•</span> <a href="https://csirnet.nta.ac.in/" target="_blank">NTA CSIR UGC NET Online Form 2026</a></li>
+        <li><span class="bullet">•</span> <a href="https://jeecup.admissions.nic.in/" target="_blank">UP Polytechnic JEECUP Form 2026</a></li>
       </ul>
-      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+      <div class="view-more-container"><a href="https://jeemain.nta.nic.in/" target="_blank" class="btn-view-more">View More</a></div>
     </div>
 
     <!-- 8. 10th / ITI Jobs -->
     <div class="box-table" id="tenth">
       <div class="box-header">10th/ITI Jobs</div>
       <ul class="box-list">
-        <li><span class="bullet">•</span> <a href="#">RRB NTPC 10+2 UG Online Form (1688 Posts)</a></li>
-        <li><span class="bullet">•</span> <a href="#">UPSSSC Inter 12th Level Online Form 2026</a></li>
-        <li><span class="bullet">•</span> <a href="#">Railway RRC Apprentice Various Trade Online</a></li>
-        <li><span class="bullet">•</span> <a href="#">MPESB Police Constable Driver Form 2026</a></li>
-        <li><span class="bullet">•</span> <a href="#">ITBP Motor Mechanic Online Form 2026</a></li>
+        <li><span class="bullet">•</span> <a href="https://rrbapply.gov.in/" target="_blank">Railway RRC Apprentice Trade Online Form</a></li>
+        <li><span class="bullet">•</span> <a href="http://upsssc.gov.in/" target="_blank">UPSSSC 12th Level Online Form 2026</a></li>
+        <li><span class="bullet">•</span> <a href="https://itbpolice.nic.in/" target="_blank">ITBP Motor Mechanic Online Form 2026</a></li>
       </ul>
-      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+      <div class="view-more-container"><a href="https://rrbapply.gov.in/" target="_blank" class="btn-view-more">View More</a></div>
     </div>
 
     <!-- 9. Outsourcing Jobs -->
     <div class="box-table">
       <div class="box-header">Outsourcing Jobs</div>
       <ul class="box-list">
-        <li><span class="bullet">•</span> <a href="#">UP Bulandshahar ECCE Educator Form 2026</a></li>
-        <li><span class="bullet">•</span> <a href="#">UP Kanpur ECCE Educator Online Form 2026</a></li>
-        <li><span class="bullet">•</span> <a href="#">UP Mathura ECCE Educator Online Form 2026</a></li>
-        <li><span class="bullet">•</span> <a href="#">UP Meerut ECCE Educator Online Form 2026</a></li>
-        <li><span class="bullet">•</span> <a href="#">UP Ayodhya ECCE Educator Form 2026</a></li>
+        <li><span class="bullet">•</span> <a href="https://sewayojan.up.nic.in/" target="_blank">UP Seva Yojan Portal Registration 2026</a></li>
+        <li><span class="bullet">•</span> <a href="https://sewayojan.up.nic.in/" target="_blank">UP District ECCE Educator Form 2026</a></li>
       </ul>
-      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+      <div class="view-more-container"><a href="https://sewayojan.up.nic.in/" target="_blank" class="btn-view-more">View More</a></div>
     </div>
 
     <!-- 10. Syllabus -->
     <div class="box-table">
       <div class="box-header">Syllabus</div>
       <ul class="box-list">
-        <li><span class="bullet">•</span> <a href="#">RRB NTPC 10+2 UG Exam Pattern & Syllabus</a></li>
-        <li><span class="bullet">•</span> <a href="#">UPESSC Assistant Teacher New Syllabus 2026</a></li>
-        <li><span class="bullet">•</span> <a href="#">BPSC School Teacher TRE 4.0 Syllabus</a></li>
-        <li><span class="bullet">•</span> <a href="#">ISRO Scientist Exam Scheme & Topics</a></li>
-        <li><span class="bullet">•</span> <a href="#">Bihar STET Official Syllabus 2026</a></li>
+        <li><span class="bullet">•</span> <a href="https://rrbapply.gov.in/" target="_blank">RRB NTPC 10+2 Exam Pattern & Syllabus</a></li>
+        <li><span class="bullet">•</span> <a href="https://ssc.gov.in/" target="_blank">SSC GD Constable New Syllabus 2026</a></li>
       </ul>
-      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+      <div class="view-more-container"><a href="https://ssc.gov.in/" target="_blank" class="btn-view-more">View More</a></div>
     </div>
 
     <!-- 11. Documents & Yojana -->
@@ -289,7 +307,7 @@
         <li><span class="bullet">•</span> <a href="https://voters.eci.gov.in/" target="_blank">Voter ID Online Apply / Form 6 ECI</a></li>
         <li><span class="bullet">•</span> <a href="https://scholarship.up.gov.in/" target="_blank">UP Scholarship Online Form 2026-27</a></li>
       </ul>
-      <div class="view-more-container"><a href="#" class="btn-view-more">View More</a></div>
+      <div class="view-more-container"><a href="https://pmsuryaghar.gov.in/" target="_blank" class="btn-view-more">View More</a></div>
     </div>
 
   </div>
@@ -329,23 +347,35 @@
       const privateJobs = jobs.filter(j => j.category && j.category.toLowerCase() === 'private');
       const freshers = jobs.filter(j => j.category && (j.category.toLowerCase() === 'fresher' || j.category.toLowerCase() === 'freshers'));
 
+      // yahan humne seedhe job-details.html?id= se link jod diya hai
       if (sarkari.length && sarkariList) {
-        sarkariList.innerHTML = sarkari.map(j => `<li><span class="bullet">•</span> <a href="${j.apply_link || '#'}" target="_blank">${j.title}</a></li>`).join('');
+        sarkariList.innerHTML = sarkari.map(j => `<li><span class="bullet">•</span> <a href="job-details.html?id=${j.id}">${j.title}</a></li>`).join('');
       }
       if (privateJobs.length && privateList) {
-        privateList.innerHTML = privateJobs.map(j => `<li><span class="bullet">•</span> <a href="${j.apply_link || '#'}" target="_blank">${j.title}</a></li>`).join('');
+        privateList.innerHTML = privateJobs.map(j => `<li><span class="bullet">•</span> <a href="job-details.html?id=${j.id}">${j.title}</a></li>`).join('');
       }
       if (freshers.length && fresherList) {
-        fresherList.innerHTML = freshers.map(j => `<li><span class="bullet">•</span> <a href="${j.apply_link || '#'}" target="_blank">${j.title}</a></li>`).join('');
+        fresherList.innerHTML = freshers.map(j => `<li><span class="bullet">•</span> <a href="job-details.html?id=${j.id}">${j.title}</a></li>`).join('');
       }
     }
 
     function filterJobs() {
-      const term = document.getElementById("searchInput").value.toLowerCase();
+      const term = document.getElementById("searchInput").value.trim().toLowerCase();
       document.querySelectorAll(".box-list li").forEach(li => {
         const txt = li.innerText.toLowerCase();
-        li.style.display = txt.includes(term) ? "" : "none";
+        li.style.display = (term === "" || txt.includes(term)) ? "" : "none";
       });
+    }
+
+    function checkEnter(event) {
+      if (event.key === "Enter") {
+        filterJobs();
+      }
+    }
+
+    function clearSearch() {
+      document.getElementById("searchInput").value = "";
+      filterJobs();
     }
 
     loadJobs();
