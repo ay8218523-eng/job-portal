@@ -238,7 +238,7 @@
 
     async function loadJobs() {
       try {
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/jobs?status=eq.Active&order=id.desc&limit=200`, {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/jobs?status=eq.Active&order=id.desc&limit=400`, {
           headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` }
         });
         if (!response.ok) return;
@@ -265,10 +265,10 @@
         const matched = allJobs.filter(item.filter);
         if (matched.length === 0) return;
 
-        const visibleJobs = expandedState[item.key] ? matched : matched.slice(0, 12);
+        const visibleJobs = expandedState[item.key] ? matched : matched.slice(0, 35);
         ul.innerHTML = visibleJobs.map(j => {
-          const hasRealDate = j.last_date && !j.last_date.includes("आधिकारिक") && !j.last_date.includes("Check");
-          const dateBadge = hasRealDate ? `<span class="last-date-badge">Last Date: ${j.last_date}</span>` : "";
+          const dateText = j.last_date ? j.last_date : "Check Notice";
+          const dateBadge = `<span class="last-date-badge">Last Date: ${dateText}</span>`;
           return `<li><span class="bullet">•</span><a href="job-details.html?id=${j.id}">${j.title}</a> ${dateBadge}</li>`;
         }).join("");
       });
