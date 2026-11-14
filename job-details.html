@@ -3,168 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Job Recruitment Details - SarkariPvtJobs</title>
+  <title>भर्ती विवरण - SarkariPvtJobs.in</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
-    body { background-color: #f1f5f9; color: #1e293b; padding: 8px; }
-
-    .paper-container {
-      max-width: 850px;
-      margin: 12px auto;
-      background: #ffffff;
-      border: 2px solid #b30000;
-      border-radius: 6px;
-      padding: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .back-home {
-      display: inline-block;
-      margin-bottom: 12px;
-      font-size: 13.5px;
-      font-weight: bold;
-      color: #004d99;
-      text-decoration: none;
-    }
-
-    .sheet-header {
-      background-color: #b30000;
-      color: #ffffff;
-      text-align: center;
-      padding: 12px;
-      border-radius: 4px;
-      margin-bottom: 16px;
-    }
-    .sheet-header h1 { font-size: 18px; font-weight: bold; line-height: 1.4; }
-    .sheet-header p { font-size: 13px; opacity: 0.95; margin-top: 4px; }
-
-    .sheet-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .section-card {
-      border: 1px solid #cbd5e1;
-      border-radius: 4px;
-      padding: 12px;
-      background-color: #f8fafc;
-    }
-    .section-card h3 {
-      font-size: 14.5px;
-      color: #a80000;
-      border-bottom: 2px solid #e2e8f0;
-      padding-bottom: 5px;
-      margin-bottom: 8px;
-    }
-    .section-card ul {
-      list-style-type: square;
-      padding-left: 18px;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .vac-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 14px 0;
-      font-size: 13px;
-    }
-    .vac-table th, .vac-table td {
-      border: 1px solid #b30000;
-      padding: 8px;
-      text-align: center;
-    }
-    .vac-table th {
-      background-color: #a80000;
-      color: #ffffff;
-    }
-
-    .links-sheet {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 14px;
-    }
-    .links-sheet th, .links-sheet td {
-      border: 1px solid #b30000;
-      padding: 10px;
-      text-align: center;
-      font-size: 13.5px;
-    }
-    .links-sheet th {
-      background-color: #b30000;
-      color: #ffffff;
-    }
-
-    .btn-apply-main {
-      display: inline-block;
-      background-color: #15803d;
-      color: #ffffff;
-      padding: 9px 20px;
-      font-size: 14px;
-      font-weight: bold;
-      text-decoration: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+    body { background-color: #f3f4f6; color: #1f2937; padding: 10px; }
+    .top-bar { max-width: 850px; margin: 0 auto 10px; background: #990000; color: #fff; padding: 12px 16px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+    .top-bar a { color: #fff; text-decoration: none; font-weight: bold; font-size: 16px; }
+    .paper-container { max-width: 850px; margin: 0 auto; background: #ffffff; border: 1px solid #d1d5db; border-top: 4px solid #990000; border-radius: 6px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .back-home { display: inline-block; margin-bottom: 12px; font-size: 14px; font-weight: 600; color: #1d4ed8; text-decoration: none; }
+    .sheet-header { background-color: #990000; color: #ffffff; text-align: center; padding: 16px; border-radius: 6px; margin-bottom: 16px; }
+    .sheet-header h1 { font-size: 20px; font-weight: 700; line-height: 1.4; }
+    .sheet-header p { font-size: 13.5px; opacity: 0.95; margin-top: 5px; }
+    .short-info { background: #fefce8; border-left: 4px solid #eab308; padding: 12px; margin-bottom: 16px; font-size: 13.5px; line-height: 1.6; border-radius: 4px; }
+    .sheet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+    .section-card { border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; background-color: #f8fafc; }
+    .section-card h3 { font-size: 15px; color: #990000; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 10px; }
+    .section-card ul { list-style-type: disc; padding-left: 18px; font-size: 13.5px; line-height: 1.7; }
+    .vac-table, .links-sheet { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13.5px; }
+    .vac-table th, .vac-table td, .links-sheet th, .links-sheet td { border: 1px solid #990000; padding: 10px; text-align: center; }
+    .vac-table th, .links-sheet th { background-color: #990000; color: #ffffff; font-size: 14px; }
+    .btn-apply-main { display: inline-block; background-color: #15803d; color: #ffffff; padding: 9px 20px; font-size: 14px; font-weight: bold; text-decoration: none; border-radius: 4px; }
     .btn-apply-main:hover { background-color: #166534; }
-
-    @media (max-width: 600px) {
-      .sheet-grid { grid-template-columns: 1fr; }
-    }
+    .social-box { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px dashed #cbd5e1; }
+    .btn-wa { background: #25D366; color: #fff; padding: 9px 16px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 13.5px; }
+    .footer-note { text-align: center; font-size: 12px; color: #6b7280; margin-top: 20px; }
+    @media (max-width: 650px) { .sheet-grid { grid-template-columns: 1fr; } .sheet-header h1 { font-size: 17px; } }
   </style>
 </head>
 <body>
 
+  <div class="top-bar">
+    <a href="index.html">SarkariPvtJobs.in</a>
+    <a href="index.html" style="font-size: 13px; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 4px;">सभी नौकरियां देखें</a>
+  </div>
+
   <div class="paper-container">
-    <a href="index.html" class="back-home">⬅ वापस होमपेज पर जाएँ (Home)</a>
+    <a href="index.html" class="back-home">← वापस होमपेज पर जाएं (Home)</a>
 
     <div class="sheet-header">
       <h1 id="jTitle">भर्ती विवरण लोड हो रहा है...</h1>
       <p id="jDept">विभाग / भर्ती बोर्ड</p>
     </div>
 
+    <div class="short-info" id="jShortInfo">
+      <strong>संक्षिप्त जानकारी (Short Information):</strong> इस भर्ती से जुड़ी सभी महत्वपूर्ण तिथियां, पात्रता, आयु सीमा और आधिकारिक आवेदन लिंक नीचे दिए गए हैं। आवेदन करने से पहले आधिकारिक विज्ञप्ति (Notification) अवश्य पढ़ें।
+    </div>
+
     <div class="sheet-grid">
-      <!-- 1. Dates -->
       <div class="section-card">
         <h3>महत्वपूर्ण तिथियाँ (Important Dates)</h3>
         <ul>
-          <li>आवेदन शुरू: <b>विज्ञप्ति जारी (Active)</b></li>
-          <li>अंतिम तिथि (Last Date): <b id="jLastDate" style="color:#b30000;">30 दिन शेष</b></li>
-          <li>परीक्षा तिथि: <b>यथाशीघ्र अधिसूचित होगी</b></li>
-          <li>एडमिट कार्ड: <b>परीक्षा से 1 हफ्ता पहले</b></li>
+          <li>आवेदन स्थिति: <b style="color:#15803d;">Active (आवेदन चालू है)</b></li>
+          <li>अंतिम तिथि (Last Date): <b id="jLastDate" style="color:#b91c1c;">विज्ञप्ति देखें</b></li>
+          <li>परीक्षा / इंटरव्यू तिथि: <b>यथाशीघ्र अधिसूचित</b></li>
         </ul>
       </div>
 
-      <!-- 2. Fee -->
       <div class="section-card">
         <h3>आवेदन शुल्क (Application Fee)</h3>
         <ul>
-          <li id="jFee">Gen / OBC / EWS: <b>₹100/-</b> | SC / ST / PH: <b>₹0/-</b></li>
-          <li>महिला (All Category Female): <b>₹0/-</b> (नियम अनुसार)</li>
-          <li>भुगतान का माध्यम: <b>Online Debit Card / Credit / Net Banking / UPI</b></li>
+          <li id="jFee"><b>विज्ञप्ति के अनुसार देखें</b></li>
+          <li>भुगतान का माध्यम: <b>Online (Debit/Credit Card, UPI, Net Banking)</b></li>
         </ul>
       </div>
 
-      <!-- 3. Age Limit (सरकारी आरक्षण नियमों के अनुसार सटीक) -->
       <div class="section-card">
         <h3>आयु सीमा (Age Limit)</h3>
         <ul>
-          <li>न्यूनतम आयु (Min Age): <b>18 वर्ष</b></li>
-          <li>सामान्य वर्ग (Gen / UR Max Age): <b id="jAge">23 से 27 वर्ष (पदानुसार)</b></li>
-          <li><b>OBC (नॉन-क्रीमी लेयर):</b> 3 वर्ष की अधिकतम आयु छूट (+3 Years)</li>
-          <li><b>SC / ST वर्ग:</b> 5 वर्ष की अधिकतम आयु छूट (+5 Years)</li>
-          <li>विस्तृत पदानुसार छूट हेतु आधिकारिक अधिसूचना देखें।</li>
+          <li id="jAge"><b>न्यूनतम 18 वर्ष (नियमानुसार)</b></li>
+          <li>आरक्षित वर्गों (SC/ST/OBC) को सरकारी नियमानुसार अधिकतम आयु में छूट।</li>
         </ul>
       </div>
 
-      <!-- 4. Eligibility -->
       <div class="section-card">
         <h3>पात्रता विवरण (Eligibility)</h3>
         <ul>
-          <li id="jEligibility">भारत के किसी भी मान्यता प्राप्त बोर्ड/विश्वविद्यालय से 10वीं / 12वीं / स्नातक (Graduate) उत्तीर्ण।</li>
-          <li>विस्तृत पद विवरण हेतु आधिकारिक अधिसूचना देखें।</li>
+          <li id="jEligibility">मान्यता प्राप्त बोर्ड/विश्वविद्यालय से संबंधित योग्यता।</li>
+          <li>विस्तृत पद विवरण हेतु नीचे दिए गए आधिकारिक लिंक पर क्लिक करें।</li>
         </ul>
       </div>
     </div>
@@ -179,9 +94,9 @@
       </thead>
       <tbody>
         <tr>
-          <td id="tablePostName">विभिन्न पद (Various Posts)</td>
-          <td id="tableTotalPosts" style="font-weight:bold; color:#004d99;">अधिसूचना अनुसार</td>
-          <td>संबंधित विषय में 10वीं/12वीं/डिग्री/डिप्लोमा</td>
+          <td id="tablePostName">विभिन्न पद</td>
+          <td id="tableTotalPosts" style="font-weight:bold; color:#047857;">विज्ञप्ति देखें</td>
+          <td id="tableQual">पदानुसार</td>
         </tr>
       </tbody>
     </table>
@@ -195,24 +110,28 @@
       </thead>
       <tbody>
         <tr>
-          <td><b>Apply Online (सीधा ऑनलाइन आवेदन / रजिस्ट्रेशन करें)</b></td>
-          <td><a href="https://ssc.gov.in/login" id="jApplyBtn" target="_blank" class="btn-apply-main">सीधे यहाँ आवेदन करें ↗</a></td>
+          <td><b>Apply Online / Official Notification (यहाँ से आवेदन करें)</b></td>
+          <td><a href="#" id="jApplyBtn" target="_blank" rel="noopener" class="btn-apply-main">यहाँ क्लिक करें (Click Here)</a></td>
         </tr>
         <tr>
-          <td>Download Official Notification / Details</td>
-          <td><a href="https://ssc.gov.in/" id="jNotifBtn" target="_blank" style="color: #004d99; font-weight: bold; text-decoration: underline;">अधिसूचना खोलें ↗</a></td>
-        </tr>
-        <tr>
-          <td>Official Recruitment Portal (विभागीय पोर्टल)</td>
-          <td><a href="https://ssc.gov.in/" id="jOfficialBtn" target="_blank" style="color: #4b5563; font-weight: 500;">आधिकारिक पोर्टल ↗</a></td>
+          <td>आधिकारिक वेबसाइट / करियर पोर्टल (Official Website)</td>
+          <td><a href="#" id="jOfficialBtn" target="_blank" rel="noopener" style="color:#1d4ed8; font-weight:bold;">Official Portal खोलें</a></td>
         </tr>
       </tbody>
     </table>
+
+    <div class="social-box">
+      <a href="#" id="waShareBtn" target="_blank" class="btn-wa">📲 इस नौकरी को WhatsApp पर शेयर करें</a>
+    </div>
+
+    <div class="footer-note">
+      <strong>अस्वीकरण (Disclaimer):</strong> SarkariPvtJobs.in एक सूचना पोर्टल है। किसी भी पद पर आवेदन करने से पहले संबंधित विभाग की आधिकारिक वेबसाइट पर जानकारी की पुष्टि अवश्य करें।
+    </div>
   </div>
 
   <script>
-    const SUPABASE_URL = "https://amyhcstvmpkrxualrfak.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_Lk0xI-AmpXCzlSOdoodPFA_OUsTSszm";
+    const SUPABASE_URL = "https://anyhcstvepkrxualrfak.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_LK9xI-AnpXczlS0doodPFA_OUsTSszm";
 
     const params = new URLSearchParams(window.location.search);
     const jobId = params.get("id");
@@ -220,82 +139,72 @@
     const jobDept = params.get("dept");
     const jobLink = params.get("link");
 
-    function getDirectFormLink(title, defaultLink) {
+    function getOfficialHome(title, fallbackUrl) {
       const t = (title || "").toLowerCase();
-      
-      // Sarkari
-      if (t.includes("ssc")) return "https://ssc.gov.in/login";
-      if (t.includes("rrb") || t.includes("railway") || t.includes("ntpc")) return "https://www.rrbapply.gov.in/#/auth/home";
-      if (t.includes("upsssc")) return "http://upsssc.gov.in/AllNotifications.aspx";
+      if (t.includes("ssc")) return "https://ssc.gov.in/";
+      if (t.includes("rrb") || t.includes("railway") || t.includes("ntpc")) return "https://www.rrbapply.gov.in/";
+      if (t.includes("upsssc")) return "http://upsssc.gov.in/";
       if (t.includes("police")) return "http://uppbpb.gov.in/";
-      if (t.includes("ibps")) return "https://ibpsonline.ibps.in/";
-      if (t.includes("army") || t.includes("agniveer")) return "https://joinindianarmy.nic.in/Authentication.aspx";
-
-      // Private & MNCs
-      if (t.includes("tcs")) return "https://nextstep.tcs.com/campus/";
-      if (t.includes("amazon")) return "https://amazon.jobs/en/search?base_query=India";
-      if (t.includes("wipro")) return "https://careers.wipro.com/careers-home/";
-      if (t.includes("infosys")) return "https://career.infosys.com/";
+      if (t.includes("ibps")) return "https://www.ibps.in/";
+      if (t.includes("tcs")) return "https://www.tcs.com/careers";
+      if (t.includes("amazon")) return "https://www.amazon.jobs/en/";
+      if (t.includes("infosys")) return "https://www.infosys.com/careers/";
       if (t.includes("hdfc")) return "https://www.hdfcbank.com/personal/about-us/careers";
-      if (t.includes("axis")) return "https://www.axisbank.com/careers/job-openings";
-      if (t.includes("flipkart")) return "https://www.flipkartcareers.com/";
+      return fallbackUrl || "https://www.ncs.gov.in/";
+    }
 
-      return defaultLink || "https://ssc.gov.in/login";
+    function setupShare(title) {
+      const shareText = encodeURIComponent(`नई भर्ती अपडेट: ${title}\nपूरी जानकारी और आवेदन लिंक यहाँ देखें: ${window.location.href}`);
+      document.getElementById("waShareBtn").href = `https://api.whatsapp.com/send?text=${shareText}`;
     }
 
     async function loadFullJobSheet() {
       if (jobTitle) {
         const decodedTitle = decodeURIComponent(jobTitle);
+        document.title = `${decodedTitle} - SarkariPvtJobs.in`;
         document.getElementById("jTitle").innerText = decodedTitle;
         document.getElementById("tablePostName").innerText = decodedTitle;
         if (jobDept) document.getElementById("jDept").innerText = decodeURIComponent(jobDept);
-        
-        const rawUrl = jobLink ? decodeURIComponent(jobLink) : "https://ssc.gov.in/login";
-        const directFormUrl = getDirectFormLink(decodedTitle, rawUrl);
 
-        document.getElementById("jApplyBtn").href = directFormUrl;
-        document.getElementById("jNotifBtn").href = directFormUrl;
-        document.getElementById("jOfficialBtn").href = directFormUrl;
+        const rawUrl = jobLink ? decodeURIComponent(jobLink) : getOfficialHome(decodedTitle, "");
+        document.getElementById("jApplyBtn").href = rawUrl;
+        document.getElementById("jOfficialBtn").href = getOfficialHome(decodedTitle, rawUrl);
+        setupShare(decodedTitle);
         return;
       }
 
       if (jobId && !isNaN(jobId)) {
         try {
           const res = await fetch(`${SUPABASE_URL}/rest/v1/jobs?id=eq.${jobId}&select=*`, {
-            headers: {
-              "apikey": SUPABASE_KEY,
-              "Authorization": `Bearer ${SUPABASE_KEY}`
-            }
+            headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` }
           });
           const list = await res.json();
           if (list && list.length > 0) {
             const j = list[0];
+            document.title = `${j.title} - SarkariPvtJobs.in`;
             document.getElementById("jTitle").innerText = j.title;
-            document.getElementById("jDept").innerText = j.company_dept || "आधिकारिक भर्ती बोर्ड";
+            document.getElementById("jDept").innerText = j.company_dept || "भर्ती पोर्टल";
             document.getElementById("tablePostName").innerText = j.title;
 
             if (j.last_date) document.getElementById("jLastDate").innerText = j.last_date;
             if (j.fee) document.getElementById("jFee").innerText = j.fee;
             if (j.age_limit) document.getElementById("jAge").innerText = j.age_limit;
-            if (j.eligibility) document.getElementById("jEligibility").innerText = j.eligibility;
+            if (j.eligibility) {
+              document.getElementById("jEligibility").innerText = j.eligibility;
+              document.getElementById("tableQual").innerText = j.eligibility;
+            }
             if (j.total_posts) document.getElementById("tableTotalPosts").innerText = j.total_posts;
 
-            const finalDirectUrl = getDirectFormLink(j.title, j.apply_link);
-            document.getElementById("jApplyBtn").href = finalDirectUrl;
-            document.getElementById("jNotifBtn").href = finalDirectUrl;
-            document.getElementById("jOfficialBtn").href = finalDirectUrl;
+            const directLink = j.apply_link || getOfficialHome(j.title, "");
+            document.getElementById("jApplyBtn").href = directLink;
+            document.getElementById("jOfficialBtn").href = getOfficialHome(j.title, directLink);
+            setupShare(j.title);
             return;
           }
         } catch (err) {
           console.error("Fetch Error:", err);
         }
       }
-
-      document.getElementById("jTitle").innerText = "Recruitment Online Application Form 2026";
-      document.getElementById("jDept").innerText = "आधिकारिक भर्ती बोर्ड";
-      document.getElementById("jApplyBtn").href = "https://ssc.gov.in/login";
-      document.getElementById("jNotifBtn").href = "https://ssc.gov.in/login";
-      document.getElementById("jOfficialBtn").href = "https://ssc.gov.in/login";
     }
 
     loadFullJobSheet();
